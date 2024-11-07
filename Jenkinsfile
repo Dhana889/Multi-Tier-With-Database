@@ -14,7 +14,7 @@ pipeline {
         JAVA_HOME = "${tool 'jdk17'}"
         MAVEN_HOME = "${tool 'mvn'}"
         PATH = "${env.MAVEN_HOME}/bin:${env.JAVA_HOME}/bin:${env.PATH}"
-        SCANNER_HOME = tool 'sonar-scanner'
+        SCANNER_HOME = tool 'sonarqube-tool'
     }
     
     stages {
