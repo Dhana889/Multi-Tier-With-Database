@@ -48,5 +48,6 @@ pipeline {
                 // Trivy file system scanner
                 sh "trivy fs --format table -o trivy-fs-report.html ."
             }
+    	}
     }
 }
