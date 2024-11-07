@@ -14,7 +14,7 @@ pipeline {
         JAVA_HOME = "${tool 'jdk17'}"
         MAVEN_HOME = "${tool 'mvn'}"
         PATH = "${env.MAVEN_HOME}/bin:${env.JAVA_HOME}/bin:${env.PATH}"
-        //SCANNER_HOME = tool 'sonar-scanner'
+        SCANNER_HOME = tool 'sonar-scanner'
     }
     
     stages {
@@ -49,5 +49,18 @@ pipeline {
                 sh "trivy fs --format json -o trivy-fs-report.json ."
             }
     	}
+        stage("SonaryQube Analysis") {
+            steps {
+                withSonarQubeEnv('sonarqube-tool') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Bankapp -Dsonar.projectKey=Bankapp \
+                            -Dsonar.java.binaries=. '''
+                }
+            }
+        }
+        stage("Quality Gate") {
+            steps {
+                waitForQualityGate abortPipeline: false, credentialsId: 'sonar-key'
+            }
+        }
     }
 }
