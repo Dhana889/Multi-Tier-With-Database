@@ -46,7 +46,7 @@ pipeline {
       	stage("Trivy FS Scanner") {
             steps {
                 // Trivy file system scanner
-                sh "trivy fs --format table -o trivy-fs-report.json ."
+                sh "trivy fs --format json -o trivy-fs-report.json ."
             }
     	}
     }
